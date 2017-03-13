@@ -2,8 +2,6 @@ package com.fl.anup.daac;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,13 +9,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fl.anup.daac.db.AppDatabase;
 
 public class LauncherActivity extends AppCompatActivity {
 
-    TextView initilizationTxt;
+    TextView initializationTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,46 +22,41 @@ public class LauncherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_launcher);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+    }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+    public LauncherActivity() {
+        super();
+    }
 
-        Toast.makeText(this,"hello",Toast.LENGTH_LONG).show();
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         showInitializationText();
 
         boolean isDomainRegistered = AppDatabase.getInstance(getApplicationContext()).isDomainInitialized();
 
-        initilizationTxt.setVisibility(View.GONE);
+        initializationTxt.setVisibility(View.GONE);
 
         if(isDomainRegistered) {
             showCurrentDomainToContinue();
         } else {
             showActivitytoRegisterNewDomain();
         }
+    }
 
-        Button continueBtn = (Button)findViewById(R.id.continue_btn);
-        Button resetBtn = (Button)findViewById(R.id.reset_btn);
-
-        continueBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showLoginActivity();
-            }
-        });
-
-        resetBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showResetDomainActivity();
-            }
-        });
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
@@ -90,12 +82,13 @@ public class LauncherActivity extends AppCompatActivity {
     }
 
     private void showInitializationText() {
-        initilizationTxt = (TextView)findViewById(R.id.initializing_txt);
-        initilizationTxt.setText("Loading...");
+        initializationTxt = (TextView)findViewById(R.id.initializing_txt);
+        initializationTxt.setText("Loading...");
     }
 
     private void showActivitytoRegisterNewDomain() {
         Intent intent= new Intent(this,SetDomainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
@@ -106,14 +99,23 @@ public class LauncherActivity extends AppCompatActivity {
         TextView currentDomainTxt = (TextView)findViewById(R.id.currentDomain_txt);
         currentDomainTxt.setText(domainName);
         currentDomainTxt.setVisibility(View.VISIBLE);
+
+        Button continueBtn = (Button)findViewById(R.id.continue_btn);
+        Button resetBtn = (Button)findViewById(R.id.reset_btn);
+
+        continueBtn.setVisibility(View.VISIBLE);
+        resetBtn.setVisibility(View.VISIBLE);
+
+
     }
 
-    private void showResetDomainActivity() {
-
-    }
-
-    private void showLoginActivity() {
-        Intent intent = new Intent(this,LoginActivity.class);
+    public void showLoginActivity(View view) {
+        Intent intent = new Intent(this,UserLoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    public void showResetDomainActivity(View v) {
+        showActivitytoRegisterNewDomain();
     }
 }

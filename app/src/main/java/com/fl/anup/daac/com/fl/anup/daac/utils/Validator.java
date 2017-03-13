@@ -8,7 +8,7 @@ public class Validator {
 
     public static boolean validateDomainName(String domainName) {
 
-        if(domainName == null) {
+        if(domainName == null || domainName.isEmpty()) {
             return false;
         }
 

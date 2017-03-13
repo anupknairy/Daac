@@ -46,8 +46,12 @@ public class AppDatabase {
         }
         domainName = sharedPref.getString(DOMAIN_NAME,null);
         if (domainName == null){
-           isDomainInitialized = false;
+            isDomainInitialized = false;
+        } else {
+            isDomainInitialized = true;
         }
+
+        System.out.println("is domain");
 
     }
 
@@ -64,6 +68,7 @@ public class AppDatabase {
             SharedPreferences sharedPref = ctx.getSharedPreferences(sp,Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString(DOMAIN_NAME,domainName);
+            editor.commit();
             this.domainName = domainName;
         } else {
             throw new Exception("Invalid domain name");
