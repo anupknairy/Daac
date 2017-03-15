@@ -1,7 +1,9 @@
 package com.fl.anup.daac;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.fl.anup.daac.com.fl.anup.daac.ws.WebServiceUtilties;
 import com.fl.anup.daac.db.AppDatabase;
 
 public class LauncherActivity extends AppCompatActivity {
@@ -88,13 +91,15 @@ public class LauncherActivity extends AppCompatActivity {
 
     private void showActivitytoRegisterNewDomain() {
         Intent intent= new Intent(this,SetDomainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        finish();
     }
 
     private void showCurrentDomainToContinue() {
 
         String domainName = AppDatabase.getInstance(getApplicationContext()).getDomainName();
+        WebServiceUtilties.baseDomainUri = domainName;
 
         TextView currentDomainTxt = (TextView)findViewById(R.id.currentDomain_txt);
         currentDomainTxt.setText(domainName);
@@ -118,4 +123,6 @@ public class LauncherActivity extends AppCompatActivity {
     public void showResetDomainActivity(View v) {
         showActivitytoRegisterNewDomain();
     }
+
+
 }

@@ -89,13 +89,8 @@ public class UserLoginActivity extends AppCompatActivity {
         mPasswordView.setVisibility(View.INVISIBLE);
 
         isPassWordRecovery = true;
-
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
     public class UserLoginTask extends AsyncTask<Void, Void, Message> {
 
         private final String mUname;
@@ -129,18 +124,16 @@ public class UserLoginActivity extends AppCompatActivity {
                             msg.getAddLogs().get("errorMessage"),Toast.LENGTH_LONG).show();
 
                 } else if(msg.getStatus().equals(ResponseStatus.SUCCESS.name())) {
-                    /*Intent intent = new Intent(getApplicationContext(),ImageBrowsingActivity.class);
+                    Intent intent = new Intent(getApplicationContext(),FileBrowserActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("uname",msg.getUserName());
+                    intent.putExtra("userName",msg.getUserName());
+                    intent.putExtra("userId",msg.getUserId());
                     startActivity(intent);
-                    finish();*/
-                    Toast.makeText(getApplicationContext(),
-                            "Success> opens file browser",Toast.LENGTH_LONG).show();
                 }
 
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                Toast.makeText(getApplicationContext(),
+                        "Error",Toast.LENGTH_LONG).show();
             }
         }
 
@@ -152,14 +145,13 @@ public class UserLoginActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        mUserNameView.setText("");
+        mPasswordView.setText("");
+        mUserNameView.requestFocus();
         super.onStop();
-        finish();
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
+
     public class PasswordRecoveryTask extends AsyncTask<Void, Void, Message> {
 
         private final String mUname;
@@ -199,8 +191,7 @@ public class UserLoginActivity extends AppCompatActivity {
                 }
 
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
             }
         }
 

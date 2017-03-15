@@ -39,7 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
         finish();
     }
 
-    public void onRadioButtonClicked(View view) {
+    public void onUserTypeClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();
 
         switch(view.getId()) {
@@ -51,6 +51,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (checked)
                     user.setUserType("doctor");
                     break;
+            default: break;
         }
     }
 
