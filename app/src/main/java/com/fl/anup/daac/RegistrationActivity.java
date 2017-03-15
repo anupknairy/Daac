@@ -29,6 +29,7 @@ public class RegistrationActivity extends AppCompatActivity {
         mUserName = (EditText)findViewById(R.id.name);
         mEmail = (EditText)findViewById(R.id.email);
         mPhoneNum = (EditText)findViewById(R.id.phone);
+        mUserName.requestFocus();
 
         user = new User();
         user.setUserType("patient"); //default
